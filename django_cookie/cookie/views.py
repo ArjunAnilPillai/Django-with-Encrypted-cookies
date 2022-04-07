@@ -14,10 +14,16 @@ key = b"7ZGS7-c5EdesRwUUkCfHxIJyVMbAW7rT1Fk6ethFu4c="
 def login(request):
     global key
     f = generateFernet(key)
+    ip = request.META.get("REMOTE_ADDR")
+    print("IP - ", ip)
 
     if request.method == "GET":
         # getting cookies
-        if "logged_in" in request.COOKIES and "username" in request.COOKIES:
+        if (
+            "timer" in request.COOKIES
+            and "logged_in" in request.COOKIES
+            and "username" in request.COOKIES
+        ):
             context = {
                 "username": request.COOKIES["username"],
                 "login_status": request.COOKIES.get("logged_in"),
@@ -29,7 +35,9 @@ def login(request):
             print("After Decryption =", context["username"])
             return render(request, "home.html", context)
         else:
-            return render(request, "login.html")
+            response = render(request, "login.html")
+            response.delete_cookie("username")
+            return response
 
     if request.method == "POST":
         username = request.POST.get("email")
@@ -46,6 +54,7 @@ def login(request):
         print("Name stored in cookie =", username)
         response.set_cookie("username", username)
         response.set_cookie("logged_in", True)
+        response.set_cookie("timer", True, max_age=30)
         return response
 
 
