@@ -57,16 +57,17 @@ def login(request):
             response = render(request, "login.html")
 
             # Getting username to delete from list of active users
-            curKey = request.COOKIES["username"][2:-1]
-            username = curKey[140:].encode()
-            curKey = decrypt(globalf, curKey[0:140].encode())
-            localf = generateFernet(curKey)
-            print("Before Decryption =", username)
-            username = decrypt(localf, username).decode()
-            print("After Decryption =", username)
-            if username in active:
-                active.remove(username)
-                print("Removed username")
+            if "logged_in" in request.COOKIES and "username" in request.COOKIES:
+                curKey = request.COOKIES["username"][2:-1]
+                username = curKey[140:].encode()
+                curKey = decrypt(globalf, curKey[0:140].encode())
+                localf = generateFernet(curKey)
+                print("Before Decryption =", username)
+                username = decrypt(localf, username).decode()
+                print("After Decryption =", username)
+                if username in active:
+                    active.remove(username)
+                    print("Removed username")
 
             # Deleting cookies
             response.delete_cookie("username")
