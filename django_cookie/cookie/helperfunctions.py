@@ -29,6 +29,10 @@ def decrypt(f, token):
     return d
 
 
-# f = keygen()
+# f = generateFernet(b"9jRsOPoL9LCzCxlYQY7udcBuS0qwseQVFjLhQGU7mDc=")
 # token = encrypt(f, b"welcome to geeksforgeeks")
-# d = decrypt(f, token)
+# d = decrypt(
+#     f,
+#     b"gAAAAABiTtLJOB32ugQiZ-NJkWyXWBjWo_i26TZbHlg2DMmQ9nc69R20EQ5T_Crz7hAGJJrdycS5L49l8gZlUgWyAGTvP7hCnq8EVaCGCLx-X5w8OZAk6U0=",
+# )
+# print(d)
