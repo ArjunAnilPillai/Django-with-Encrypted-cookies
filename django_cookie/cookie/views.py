@@ -103,7 +103,7 @@ def login(request):
         # setting cookies
         response.set_cookie("username", username)
         response.set_cookie("logged_in", True)
-        response.set_cookie("timer", True, max_age=10)
+        response.set_cookie("timer", True, max_age=100)
         return response
 
 
